@@ -11,6 +11,7 @@
 #include "HeadMountedDisplayFunctionLibrary.h"
 #include "Materials/Material.h"
 #include "Engine/World.h"
+#include "skill1.h"
 
 ACWCharacter::ACWCharacter()
 {
@@ -87,4 +88,23 @@ void ACWCharacter::Tick(float DeltaSeconds)
 			CursorToWorld->SetWorldRotation(CursorR);
 		}
 	}
+}
+
+void ACWCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
+{
+	// Set up gameplay key bindings
+	check(PlayerInputComponent);
+
+	PlayerInputComponent->BindAction("Skill1", IE_Pressed, this, &ACWCharacter::Skill1);
+}
+
+void ACWCharacter::Skill1()
+{
+UE_LOG(LogTemp, Log, TEXT("Skill1_fornt"));
+	//https://midason.tistory.com/450   //블루프린트로 엑터 스폰하기
+	//UE_LOG(LogTemp, Log, TEXT("Log Message"));
+	//FName path = TEXT("Blueprint'/Game/TopDownCPP/Blueprints/skill1_Blueprint.skill1_Blueprint_C'");//래퍼런스 복사 를 써야 한다. 경로 x
+	//UClass* GeneratedBP = Cast<UClass>(StaticLoadObject(UClass::StaticClass(), NULL, *path.ToString()));// 블루프린트 클래스를 받아 쓰는 대신 매시컴포넌트를 엑터 안에 넣어서 표현 하는 방향으로 변경중
+	GetWorld()->SpawnActor<Askill1>(Skill1Class,GetActorLocation() ,GetActorRotation());// FVector::ZeroVector, FRotator::ZeroRotator);//플레이어 위치 방향을 받아서 생성 하도록 변경 요망'
+	UE_LOG(LogTemp, Log, TEXT("Skill1_back"));
 }

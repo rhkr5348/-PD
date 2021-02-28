@@ -5,12 +5,12 @@
 #include "Runtime/Engine/Classes/Components/DecalComponent.h"
 #include "HeadMountedDisplayFunctionLibrary.h"
 #include "CWCharacter.h"
-#include "Engine/World.h"
 
 ACWPlayerController::ACWPlayerController()
 {
 	bShowMouseCursor = true;
 	DefaultMouseCursor = EMouseCursor::Crosshairs;
+
 }
 
 void ACWPlayerController::PlayerTick(float DeltaTime)
@@ -36,18 +36,9 @@ void ACWPlayerController::SetupInputComponent()
 	InputComponent->BindTouch(EInputEvent::IE_Pressed, this, &ACWPlayerController::MoveToTouchLocation);
 	InputComponent->BindTouch(EInputEvent::IE_Repeat, this, &ACWPlayerController::MoveToTouchLocation);
 
-	InputComponent->BindAction("Skill1",IE_Pressed,this, &ACWPlayerController::Skill1);
+	InputComponent->BindAction("ResetVR", IE_Pressed, this, &ACWPlayerController::OnResetVR);
 }
 
-void  ACWPlayerController::Skill1()
-{
-	//https://midason.tistory.com/450   //블루프린트로 엑터 스폰하기
-	//UE_LOG(LogTemp, Log, TEXT("Log Message"));
-	FName path = TEXT("Class'/ Game / TopDownCPP / Blueprints / skill1_Blueprint'");
-	UE_LOG(LogTemp, Log, TEXT("Skill1"));
-	UClass* GeneratedBP = Cast<UClass>(StaticLoadObject(UClass::StaticClass(), NULL, *path.ToString()));
-	GetWorld()->SpawnActor<ACWPlayerController>(GeneratedBP, FVector::ZeroVector , FRotator::ZeroRotator);//플레이어 위치 방향을 받아서 생성 하도록 변경 요망
-}
 
 void ACWPlayerController::OnResetVR()
 {
